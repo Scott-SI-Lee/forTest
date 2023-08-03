@@ -8,7 +8,9 @@ public interface StndWordService {
 
     List<StndWord> getStndWordList(StndWord dto);
 
-    StndWord getStndWord(StndWord dto);
+    StndWord getStndWordById(StndWord dto);
+
+    List<StndWord> getStndWordByEngNm(String wordEngNm);
 
     StndWord addStndWord(StndWord dto);
 

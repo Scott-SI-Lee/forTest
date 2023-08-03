@@ -23,8 +23,12 @@ public class StndWordServiceImpl implements StndWordService {
     }
 
     @Override
-    public StndWord getStndWord(StndWord dto) {
+    public StndWord getStndWordById(StndWord dto) {
         return stndWordRepository.getReferenceById(dto.getWordId());
+    }
+
+    public List<StndWord> getStndWordByEngNm(String wordEngNm) {
+        return stndWordRepository.getReferenceByWordEngNm(wordEngNm);
     }
 
     public StndWord addStndWord(StndWord dto) {

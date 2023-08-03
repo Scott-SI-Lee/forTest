@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
+import com.example.test.sub1.Common.ApiResponseItem;
 import java.util.List;
 
 @Slf4j
@@ -40,8 +39,10 @@ public class StndWordController {
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")   //권한 체크
     @PostMapping("/v1/getStndWordList")
     @ResponseBody
-    public List<StndWord> getStndWordList(@RequestBody StndWord dto) {
-        return stndWordService.getStndWordList(dto);
+    public ApiResponseItem<List<StndWord>> getStndWordList(@RequestBody StndWord dto) {
+        List<StndWord> list = stndWordService.getStndWordList(dto);
+
+        return ApiResponseItem.createSuccess("200",list);
     }
 
 
@@ -51,8 +52,16 @@ public class StndWordController {
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")   //권한 체크
     @PostMapping("/v1/addStndWord")
     @ResponseBody
-    public StndWord addStndWord(@RequestBody StndWord dto) {
-        return stndWordService.addStndWord(dto);
+    public ApiResponseItem addStndWord(@RequestBody StndWord dto) {
+        List<StndWord> checkRes = stndWordService.getStndWordByEngNm(dto.getWordEngNm());
+
+        if(checkRes.size()>0){
+            log.error("이미 등록된 정보 존재");
+            return ApiResponseItem.createError("500","이미 등록된 정보 존재");
+        }
+        StndWord result = stndWordService.addStndWord(dto);
+
+        return result !=null ?  ApiResponseItem.createSuccessWithNoContent() : ApiResponseItem.createError("500","등록 에러 발생");
     }
 
     @Operation(summary = "표준단어삭제", description = "표준단어삭제.", tags = {"StndWord Controller"}
@@ -77,13 +86,14 @@ public class StndWordController {
         return 1;
     }
 
-    @Operation(summary = "표준단어1건 조회", description = "1건의 표준단어이 조회됩니다.", tags = {"StndWord Controller"}
+    @Operation(summary = "표준단어1건 조회", description = "1건의 표준단어가 조회됩니다.", tags = {"StndWord Controller"}
             , parameters = {}
     )
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")   //권한 체크
     @PostMapping("/v1/getStndWord")
     @ResponseBody
     public StndWord getStndWord(@RequestBody StndWord dto) {
-        return stndWordService.getStndWord(dto);
+        return stndWordService.getStndWordById(dto);
     }
+
 }
