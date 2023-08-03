@@ -51,6 +51,7 @@ export default {
        }
        try {
          let result = await AxiosInst.post(url, this.selected);
+         alert(msg);
          return result;
        }catch(error){
          alert(error);
