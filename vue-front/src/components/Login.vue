@@ -45,9 +45,9 @@ export default {
       formJson.userId = this.userId;
       formJson.userPw = this.userPw;
       try {
-        console.log(JSON.stringify(formJson));
+        console.log("gigi" + JSON.stringify(formJson));
         let result = await AxiosInst.post(
-          "http://localhost:8080/loginProceed",
+          "/loginProceed",
           formJson
         );
 
@@ -61,10 +61,11 @@ export default {
         localStorage.setItem("userType", result.data.userType);
         this.$store.commit("loginSuccess", result.data);
         this.$store.dispatch("getAccountInfo");
+        alert("Finish!" + process.env.VUE_APP_TEST);
       } catch (error) {
         alert(error);
       } finally {
-        alert("Finish!" + process.env.VUE_APP_TEST);
+
         this.$router.push("/");
       }
 

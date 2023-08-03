@@ -1,53 +1,62 @@
 <template>
   <div class="StndWord">
     <h1>{{ msg }}</h1>
-    <p>표준단어 화면</p>
+
+    <v-container>
+      <p>* 표준단어 화면</p>
     <v-btn @click="getStndWordList">표준단어 조회</v-btn>
     <v-btn @click="delStndWord">표준단어 삭제</v-btn>
+    </v-container>
     <v-container>
       <DataTable ref="datatableView" v-bind:tabledata="data" />
     </v-container>
     <v-divider></v-divider>
-    <v-card width="400" title="표준단어 등록">
-      <v-form ref="frm" v-on:submit.prevent="">
-          <v-row class="w-auto ma-1 ">
-            <v-col  class="w-auto" >
+    <v-container class="d-flex justify-center">
+      <v-card width="80%"  title="표준단어 등록">
+        <v-form ref="frm" v-on:submit.prevent="">
+          <v-row class="w-auto ma-1">
+            <v-col class="w-auto">
               <v-text-field
                 v-model="wordForm.wordKorNm"
                 label="표준단어명"
               ></v-text-field>
             </v-col>
-            <v-col  class="w-auto">
+            <v-col class="w-auto">
               <v-text-field
                 v-model="wordForm.wordEngNm"
                 label="표준단어영문명"
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row class="w-auto ma-1 ">
-            <v-col  class="w-auto">
+          <v-row class="w-auto ma-1">
+            <v-col class="w-auto">
               <v-text-field
                 v-model="wordForm.wordAbrNm"
                 label="표준단어약어명"
               ></v-text-field>
             </v-col>
-            <v-col  class="w-auto ">
+            <v-col class="w-auto">
               <v-text-field
                 v-model="wordForm.wordDescn"
                 label="표준단어설명"
               ></v-text-field>
             </v-col>
           </v-row>
-        <!--        <v-select-->
-        <!--          v-model="userForm.userType"-->
-        <!--          label="사용자유형"-->
-        <!--          :items="['ADMIN', 'USER']"-->
-        <!--        >-->
-        <!--        </v-select>-->
-      </v-form>
-      <v-btn @click="regStndWord">표준단어 등록</v-btn>
-      <v-btn @click="formReset">입력폼 초기화</v-btn>
-    </v-card>
+          <!--        <v-select-->
+          <!--          v-model="userForm.userType"-->
+          <!--          label="사용자유형"-->
+          <!--          :items="['ADMIN', 'USER']"-->
+          <!--        >-->
+          <!--        </v-select>-->
+        </v-form>
+        <v-row class="w-auto ma-1">
+          <v-col class="d-flex justify-center">
+            <v-btn class="ma-1" @click="regStndWord">표준단어 등록</v-btn>
+            <v-btn class="ma-1" @click="formReset">입력폼 초기화</v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
     <v-divider></v-divider>
   </div>
 </template>
