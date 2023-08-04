@@ -41,4 +41,11 @@ public class IndexController {
         log.info("로그인시도"+dto.toString());
         return loginService.logInProceed(dto);
     }
+
+    @RequestMapping("/refreshToken")
+    @ResponseBody
+    public LoginUser refreshToken(@RequestBody LoginUser dto){
+        log.info("토큰 리프레시"+dto.toString());
+        return loginService.refreshToken(dto);
+    }
 }

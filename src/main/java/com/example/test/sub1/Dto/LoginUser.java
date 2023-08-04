@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 @Schema(description = "로그인DTO")
 @Data
 @Entity
+
 @Table(name="TB_USER")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @RequiredArgsConstructor
@@ -28,10 +29,14 @@ public class LoginUser {
     @Transient  // 실제테이블에는 없고 dto로만 사용될 때
     private String token;
 
-    public LoginUser(String userId, String userNm, UserType userType, String token) {
+    @Schema(description = "리프레시토큰")
+    private String refreshToken;
+
+    public LoginUser(String userId, String userNm, UserType userType, String token,String refreshToken) {
         this.userId=userId;
         this.userNm=userNm;
         this.userType= userType.name();
         this.token=token;
+        this.refreshToken=refreshToken;
     }
 }

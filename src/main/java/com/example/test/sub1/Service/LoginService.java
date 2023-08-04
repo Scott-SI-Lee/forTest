@@ -12,4 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface LoginService {
     public LoginUser logInProceed(LoginUser request);
+
+    public LoginUser refreshToken(LoginUser request);
+
 }

@@ -24,6 +24,12 @@ public class LoginServiceImpl implements LoginService {
         log.info("토큰 생성 시작 ");
         String token = tokenProvider.createToken(String.format("%s:%s", loginUser.getUserId(), loginUser.getUserType()));    // 토큰 생성
         log.info("토큰 확인 : " + token);
-        return new LoginUser(loginUser.getUserId(),loginUser.getUserNm(), UserType.valueOf(loginUser.getUserType()), token);    // 생성자에 토큰 추가
+        String refreshToken = tokenProvider.createRefreshToken(String.format("%s:%s", loginUser.getUserId(), loginUser.getUserType()));    // 토큰 생성
+        return new LoginUser(loginUser.getUserId(),loginUser.getUserNm(), UserType.valueOf(loginUser.getUserType()), token, refreshToken);    // 생성자에 토큰 추가
+    }
+
+    @Override
+    public LoginUser refreshToken(LoginUser request) {
+        return null;
     }
 }

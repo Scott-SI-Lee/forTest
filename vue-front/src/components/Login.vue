@@ -45,7 +45,7 @@ export default {
       formJson.userId = this.userId;
       formJson.userPw = this.userPw;
       try {
-        console.log("gigi" + JSON.stringify(formJson));
+       // console.log("gigi" + JSON.stringify(formJson));
         let result = await AxiosInst.post(
           "/loginProceed",
           formJson

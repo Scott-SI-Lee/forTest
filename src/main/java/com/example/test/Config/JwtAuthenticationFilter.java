@@ -64,13 +64,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private User parseUserSpecification(String token) {
         String[] split = Optional.ofNullable(token)
-                .filter(subject -> subject.length() >= 10)
-                .map(tokenProvider::validateTokenAndGetSubject)
+                .filter(subject -> subject.length() >= 10)   //predicate 값이 참이면 해당 필터를 통과시키고 거짓이면 통과 되지 않습니다.
+                .map(tokenProvider::validateTokenAndGetSubject)  //mapper 함수를 통해 입력값을 다른 값으로 변환하는 메서드입니다.
                 .orElse("anonymous:anonymous")
                 .split(":");
 
-        log.info("split0" + split[0]);
-        log.info("split1" + split[1]);
+        log.info("split0 : " + split[0]);
+        log.info("split1 : " + split[1]);
         return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
     }
 
