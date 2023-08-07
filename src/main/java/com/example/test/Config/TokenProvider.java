@@ -76,11 +76,12 @@ public class TokenProvider {
     public String validateTokenAndGetSubject(String token) {
         log.info("토큰검증 : " + token);
         byte KeyByte[] = Base64.getDecoder().decode(secretKey);
-        return Jwts.parser()
+        String ret = Jwts.parser()
                 .setSigningKey(KeyByte)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+        return ret;
     }
 
     public String validateRefreshTokenAndGetSubject(String refreshToken) {

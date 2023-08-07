@@ -76,13 +76,13 @@ export default {
   methods: {
     getPostList: function () {
       let formJson = {};
-      AxiosInst.post("http://localhost:8080/v1/getPostList", formJson)
+      AxiosInst.post("/v1/getPostList", formJson)
         .then((result) => {
           this.data = result.data;
           //    alert(this.data);
         })
         .catch((error) => {
-          alert(error);
+          alert("에러 발생" + error);
         })
         .finally(() => {});
     },
@@ -92,7 +92,7 @@ export default {
     delPost: async function (postId) {
       let formJson = { postId: postId };
       let result = await AxiosInst.post(
-        "http://localhost:8080/v1/delPost",
+        "/v1/delPost",
         formJson
       );
 

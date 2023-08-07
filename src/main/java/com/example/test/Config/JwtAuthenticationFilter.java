@@ -1,6 +1,9 @@
 package com.example.test.Config;
 
 import com.example.test.sub1.Dto.LoginUser;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             log.info("헤더값 출력 : " + request.getHeader(HttpHeaders.AUTHORIZATION));
             String token = parseBearerToken(request);
-            log.info("토큰체크 :" +request.getRequestURI() +":"+token);
+            log.info("토큰체크 :" + request.getRequestURI() + ":" + token);
 //            if(token==null && !request.getRequestURI().equals("/loginForm")){
 //                response.sendRedirect("/loginForm");
 //                filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출
@@ -44,12 +47,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            }
 //            log.info("여기? : ");
             User user = parseUserSpecification(token);
-            log.info("유저권한 : "+ user.getAuthorities());
+            log.info("유저권한 : " + user.getAuthorities());
             AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, token, user.getAuthorities());
             authenticated.setDetails(new WebAuthenticationDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticated);
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
+
+//        }            catch (Exception e) {
+//                log.error("토큰검증 에러" +  e.getMessage());
+//                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                request.setAttribute("exception", e);
+//            }
+        } catch (IllegalArgumentException e) {
+            logger.error("an error occured during getting username from token", e);
+            // JwtException (custom exception) 예외 발생시키기
+            throw new JwtException("유효하지 않은 토큰");
+        } catch (ExpiredJwtException e) {
+            logger.warn("the token is expired and not valid anymore", e);
+            throw new JwtException("토큰 기한 만료");
+        } catch(SignatureException e){
+            logger.error("Authentication Failed. Username or Password not valid.");
+            throw new JwtException("사용자 인증 실패");
         }
 
         filterChain.doFilter(request, response);

@@ -34,6 +34,8 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private final JwtExceptionFilter jwtExceptionFilter;
+
     private final String[] allowedUrls = {"/", "/loginForm", "/loginProceed", "/js/**", "/vue-front/**", "/img/*", "/error", "/swagger-ui/**", "/api-docs/**", "/signUp", "/fonts/*","favicon.ico"};
 
     @Bean
@@ -42,6 +44,7 @@ public class SecurityConfiguration {
         ;
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);    //음?
+        http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
         http.cors().disable()
                 .csrf().disable()
                 .httpBasic().disable()

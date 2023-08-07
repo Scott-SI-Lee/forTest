@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AxiosInst = axios.create({
-  baseURL: "http://localhost:8080", // baseURL 추가
+ // baseURL: "http://localhost:8080", // baseURL 추가 // proxy 사용일 때는 쓰면 안됌. proxy 주소가 베이스 url이 됌
 });
 // 2. 모든 요청을 intercept 해서 header값 설정(토큰)
 // : Axios request일때 이 설정값을 사용한다는 것
@@ -17,7 +17,8 @@ AxiosInst.interceptors.request.use((config) => {
 AxiosInst.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 403) {
+      console.log("에러다" +JSON.stringify(error.response));
+    if (error.response && error.response.status != 200) {
       //  return Auth.refreshToken() // token 재발행 및 반환
       //.then((token) => {
       //          console.log(token);  //테스트용
@@ -25,11 +26,11 @@ AxiosInst.interceptors.response.use(
       //  return AxiosInst.request(error.config); // error.config(origin API 정보)를 다시 요청
       //})
       //.catch((error) => {
-      //                    console.log(error);
+                         console.log("에러"+error);
       //                  window.location.href = "/login";
       //});
       //}
-      window.location.href = "/loginForm";
+     // window.location.href = "/loginForm";
       return Promise.reject(error);
     }
   }
