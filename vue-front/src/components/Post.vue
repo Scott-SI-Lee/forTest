@@ -2,6 +2,11 @@
   <div class="강의노트">
     <h1>{{ msg }}</h1>
     <p>강의노트 화면입니다.</p>
+    <div class="container">
+      <!-- Content here -->
+<!--      부트스트랩임-->
+      ㅎ2ㅎ2<button type="button" class="btn btn-primary">Primary</button>
+    </div>
     <v-btn @click="getPostList">조회</v-btn>
     <v-container class="overflow-auto">
       <v-card
